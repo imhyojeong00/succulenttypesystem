@@ -51,7 +51,7 @@ const IMAGE_CONFIG = {
     'AC_INTER1': { scale: 1.5, offsetY: -60, isMutant: true },
     'RANDOM_CHAR': { scale: 0.93, isMutant: true },
     'DT_INTER': { scale: 1.4, offsetY: -5, isMutant: true },
-    'HT_INTER': { scale: 1.2, isMutant: true },
+    'HT_INTER': { scale: 0.7, isMutant: true },
     'IMAGE_CONFIG': { scale: 2.9, offsetY: -90, isMutant: true },
 
     'K_INTER1': { scale: 0.9, isMutant: true },
