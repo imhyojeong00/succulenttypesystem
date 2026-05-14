@@ -1,4 +1,4 @@
-//[1. 이미지 설정 및 각도 게산기!!]
+//[1. 이미지 설정 및 각도 계산기]
 const IMAGE_CONFIG = {
     'A': { scale: 0.6, offsetY: 0 },
     'B': { scale: 1.0, offsetY: 0 },
@@ -68,7 +68,15 @@ const IMAGE_CONFIG = {
     'W8': { scale: 1.2, isMutant: true },
     'W9': { scale: 1.3, isMutant: true },
 
+    'Z2': { scale: 1.0, isMutant: true },
+
     'ECHEVERIA_MASTER': { scale: 2.8, isMutant: true }
+};
+
+const IMAGE_FALLBACK_MAP = {
+    'AC_INTER1': 'AC_COMBO',
+    'W5': 'W4',
+    'Z2': 'Z'
 };
 
 const SPECIES_MAP = {
@@ -127,6 +135,16 @@ const SPECIES_MAP = {
     'K_INTER1': 'K diagonal mutant',
     'K_INTER2': 'K diagonal mutant',
     'K_INTER3': 'K diagonal mutant',
+    'W1': 'W derived cluster',
+    'W2': 'W derived cluster',
+    'W3': 'W derived cluster',
+    'W4': 'W derived cluster',
+    'W5': 'W derived cluster',
+    'W6': 'W derived cluster',
+    'W7': 'W derived cluster',
+    'W8': 'W derived cluster',
+    'W9': 'W derived cluster',
+    'Z2': 'Z derived cluster',
     'ECHEVERIA_MASTER': 'Echeveria master cluster'
 };
 
@@ -174,6 +192,7 @@ let lastPos = { x: START_X, y: START_Y };
 
 let wCounter = 0;
 let aCounter = 0;
+let zCounter = 0;
 let firstASequenceSpawned = false;
 
 let receiptRecords = [];
@@ -197,7 +216,7 @@ window.onload = () => {
     input?.addEventListener('keydown', handleKeydown);
     input?.addEventListener('input', handleInput);
 
-    moveCamera(START_X, START_Y + (window.innerHeight * 0.2), 'instant');
+    moveCamera(START_X, START_Y + (window.innerHeight * 0.2), 'auto');
 };
 
 function toggleMutantOnly() {
@@ -223,15 +242,20 @@ function handleKeydown(e) {
         input.value = '';
         lastKey = null;
         lastPos = { x: START_X, y: START_Y };
+
         wCounter = 0;
         aCounter = 0;
+        zCounter = 0;
         firstASequenceSpawned = false;
+
         collectedSet.clear();
         masterSpawned = false;
+
         receiptRecords = [];
         typedHistory = [];
+
         updateDataLog(0, 0, false);
-        moveCamera(START_X, START_Y + (window.innerHeight * 0.2), 'smooth');
+        moveCamera(START_X, START_Y + (window.innerHeight * 0.2), 'auto');
         closeReceipt();
     }
 
@@ -253,6 +277,7 @@ function handleInput(e) {
         lastKey = "?";
         wCounter = 0;
         aCounter = 0;
+        zCounter = 0;
         return;
     }
 
@@ -289,6 +314,8 @@ function handleInput(e) {
 
         if (char === 'W') {
             handleWVariant(char);
+        } else if (char === 'Z' && lastKey === 'Z') {
+            handleZVariant(char);
         } else if (char === 'A' && lastKey === 'A') {
             handleAVariant(char);
             checkMasterLogic('A');
@@ -306,7 +333,8 @@ function handleInput(e) {
             checkMasterLogic(char);
 
             if (char !== 'A') aCounter = 0;
-            wCounter = 0;
+            if (char !== 'W') wCounter = 0;
+            if (char !== 'Z') zCounter = 0;
         }
     }
 }
@@ -340,7 +368,7 @@ function processTyping(char) {
     createSucculentElement(char, nX, nY, rot, char, prevChar, distance, angle);
 
     lastPos = { x: nX, y: nY };
-    moveCamera(nX, nY, 'smooth');
+    moveCamera(nX, nY, 'auto');
     updateDataLog(distance, angle, char === lastKey);
     lastKey = char;
 }
@@ -352,7 +380,7 @@ function renderAHorizontalSequence(baseX, baseY, sourceInput = 'A') {
     for (let i = 0; i < aImages.length; i++) {
         setTimeout(() => {
             createSucculentElement(aImages[i], baseX + spacing * (i + 1), baseY, 0, sourceInput, 'A', null, null);
-        }, 300 * (i + 1));
+        }, 120 * (i + 1));
     }
 }
 
@@ -364,16 +392,34 @@ function handleAVariant(sourceInput = 'A') {
     createSucculentElement(imgName, lastPos.x, nY, 0, sourceInput, 'A', 0, 90);
 
     lastPos = { x: lastPos.x, y: nY };
-    moveCamera(lastPos.x, nY, 'smooth');
+    moveCamera(lastPos.x, nY, 'auto');
+
     lastKey = 'A';
     wCounter = 0;
+    zCounter = 0;
+}
+
+function handleZVariant(sourceInput = 'Z') {
+    zCounter = (zCounter % 2) + 1;
+    const imgName = zCounter === 1 ? 'Z2' : 'Z';
+    const nX = lastPos.x + 120;
+    const nY = lastPos.y + 20;
+
+    createSucculentElement(imgName, nX, nY, 0, sourceInput, 'Z', 0, 90);
+
+    lastPos = { x: nX, y: nY };
+    moveCamera(nX, nY, 'auto');
+
+    lastKey = 'Z';
+    wCounter = 0;
+    aCounter = 0;
 }
 
 function renderACSequence(sourceInput = 'C') {
     renderIntermediateNode("AC_COMBO", sourceInput);
     setTimeout(() => {
         createSucculentElement('AC_INTER1', lastPos.x, lastPos.y - 120, 0, sourceInput, 'A/C', null, null);
-    }, 1200);
+    }, 500);
 }
 
 function renderAKSequence(sourceInput = 'K') {
@@ -381,13 +427,13 @@ function renderAKSequence(sourceInput = 'K') {
 
     setTimeout(() => {
         createSucculentElement('AK_INTER1', lastPos.x, lastPos.y - 140, 0, sourceInput, 'A/K', null, null);
-    }, 1000);
+    }, 500);
 }
 
 function renderQSequence(baseX, baseY, sourceInput = 'Q') {
     setTimeout(() => {
         createSucculentElement('Q1', baseX + 180, baseY, 0, sourceInput, 'Q', null, null);
-    }, 500);
+    }, 250);
 }
 
 function renderDTSequence(sourceInput = 'T') {
@@ -396,7 +442,7 @@ function renderDTSequence(sourceInput = 'T') {
     setTimeout(() => {
         createSucculentElement('IMAGE_CONFIG', lastPos.x, lastPos.y - 90, 0, sourceInput, 'D/T', null, null);
         checkMasterLogic("IMAGE_CONFIG");
-    }, 3000);
+    }, 800);
 }
 
 function renderKDiagonalSequence(sourceInput = 'K') {
@@ -408,7 +454,7 @@ function renderKDiagonalSequence(sourceInput = 'K') {
             const nX = lastPos.x + Math.cos(angle) * 195 * (i + 1);
             const nY = lastPos.y + Math.sin(angle) * 195 * (i + 1);
             createSucculentElement(kImages[i], nX, nY, 0, sourceInput, 'K', null, null);
-        }, 300 * (i + 1));
+        }, 120 * (i + 1));
     }
 }
 
@@ -431,10 +477,12 @@ function handleWVariant(sourceInput = 'W') {
     createSucculentElement(imgName, nX, nY, 0, sourceInput, lastKey, 0, 90);
 
     lastPos = { x: nX, y: nY };
-    moveCamera(nX, nY, 'smooth');
+    moveCamera(nX, nY, 'auto');
+
     lastKey = 'W';
     checkMasterLogic('W');
     aCounter = 0;
+    zCounter = 0;
 }
 
 function renderIntermediateNode(imgName, sourceInput = '-') {
@@ -480,20 +528,32 @@ function createSucculentElement(imgName, x, y, rot, sourceInput = '-', prevInput
     recordReceipt(imgName, x, y, rot, sourceInput, prevInput, distance, angle, config);
 
     const img = document.createElement('img');
-    img.src = `./images/${imgName}.png`;
+    const baseWidth = 320 * config.scale;
+
+    img.style.width = baseWidth + "px";
+    img.style.height = "auto";
 
     img.onload = () => {
-        const baseWidth = 320 * config.scale;
-        img.style.width = baseWidth + "px";
-        img.style.height = "auto";
         node.style.left = `${x - (baseWidth / 2)}px`;
         node.style.top = `${y - (img.offsetHeight / 2) + (config.offsetY || 0)}px`;
     };
 
     img.onerror = () => {
-        img.style.display = 'none';
-        node.innerHTML = `<span style="color:#000; font-size:10px; background:#fff; border:1px solid red;">Missing: ${imgName}</span>`;
+        const fallbackName = IMAGE_FALLBACK_MAP[imgName] || 'A';
+
+        if (img.dataset.fallbackTried === "true") {
+            img.style.display = 'none';
+            node.innerHTML = `<span style="color:#000; font-size:10px; background:#fff; border:1px solid red;">Missing: ${imgName}</span>`;
+            console.warn("Missing image:", imgName);
+            return;
+        }
+
+        img.dataset.fallbackTried = "true";
+        img.src = `./images/${fallbackName}.png`;
+        console.warn(`Missing image: ${imgName}. Fallback to ${fallbackName}.`);
     };
+
+    img.src = `./images/${imgName}.png`;
 
     node.style.transform = `rotate(${rot}deg)`;
     node.appendChild(img);
@@ -634,7 +694,7 @@ function calculateCoords(dist, angle, isSame) {
     };
 }
 
-function moveCamera(x, y, behavior) {
+function moveCamera(x, y, behavior = 'auto') {
     window.scrollTo({
         left: x - (window.innerWidth / 2),
         top: y - (window.innerHeight * 0.35),
