@@ -8,18 +8,36 @@
     <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
 </head>
 <body>
+    <button id="coord-toggle" aria-label="좌표 보기" title="Coordinate">⊕</button>
+
     <div id="ui-layer">
         <input type="text" id="succulent-input" placeholder="TYPE A-Z " autofocus>
         
         <div id="data-log">
             DIST: <span id="dist-val">-</span> | 
             ANGLE: <span id="angle-val">-</span>
-            
-            <button id="decode-btn">[COLLAPSE]</button>
-            <button id="save-btn">[SAVE]</button>
+
+            <button id="decode-btn">[MUTANT VIEW]</button>
         </div>
     </div>
-    <div id="render-stage"></div>
+
+    <div id="utility-layer">
+        <button id="receipt-btn" title="Receipt">▤</button>
+        <button id="save-btn" title="Save">↓</button>
+    </div>
+
+    <div id="receipt-panel">
+        <div id="receipt-header">
+            <span>CLUSTER RECEIPT</span>
+            <button id="receipt-close">×</button>
+        </div>
+        <pre id="receipt-content"></pre>
+        <button id="receipt-download">[DOWNLOAD TXT]</button>
+    </div>
+
+    <div id="render-stage">
+        <div id="coord-layer"></div>
+    </div>
 
     <script src="script.js"></script>
 </body>
