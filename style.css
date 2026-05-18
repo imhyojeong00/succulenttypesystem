@@ -1,330 +1,250 @@
 body {
-    margin: 0;
-    padding: 0;
-    background-color: #ffffff;
-    overflow: auto;
+  margin: 0;
+  padding: 0;
+  background-color: #ffffff;
+  overflow: auto;
 }
 
 #render-stage {
-    position: relative;
-    width: 50000px;
-    height: 50000px;
-    background-color: #ffffff;
+  position: relative;
+  width: 50000px;
+  height: 50000px;
+  background-color: #ffffff;
 }
 
 #coord-toggle {
-    position: fixed;
-    top: 24px;
-    left: 24px;
-
-    width: 24px;
-    height: 24px;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    background: transparent;
-    border: none;
-    outline: none;
-    padding: 0;
-
-    color: rgba(0, 0, 0, 0.42);
-
-    font-size: 19px;
-    font-weight: 100;
-    line-height: 1;
-
-    font-family: 'Helvetica Neue', Arial, sans-serif;
-
-    cursor: pointer;
-    z-index: 10000003;
-
-    transition: color 0.15s, transform 0.15s;
+  position: fixed;
+  top: 24px;
+  left: 24px;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  outline: none;
+  padding: 0;
+  color: rgba(0, 0, 0, 0.42);
+  font-size: 19px;
+  font-weight: 100;
+  line-height: 1;
+  font-family: "Helvetica Neue", Arial, sans-serif;
+  cursor: pointer;
+  z-index: 10000003;
+  transition: opacity 0.2s, transform 0.2s, color 0.2s;
 }
 
 #coord-toggle:hover {
-    color: rgba(0, 0, 0, 0.72);
-    transform: scale(1.04);
+  color: rgba(0, 0, 0, 0.72);
+  transform: scale(1.04);
 }
 
 #coord-toggle.active {
-    color: rgba(60, 150, 80, 0.72);
+  color: rgba(60, 150, 80, 0.72);
 }
 
 #coord-layer {
-    position: absolute;
-    top: 0;
-    left: 0;
-
-    width: 50000px;
-    height: 50000px;
-
-    pointer-events: none;
-    z-index: 100;
-
-    display: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 50000px;
+  height: 50000px;
+  pointer-events: none;
+  z-index: 100;
+  display: none;
 }
 
 #coord-layer.show {
-    display: block;
+  display: block;
 }
 
 .coord-line {
-    position: absolute;
-    background: rgba(60, 150, 80, 0.16);
-    z-index: 101;
+  position: absolute;
+  background: rgba(60, 150, 80, 0.16);
+  z-index: 101;
 }
 
 .coord-line.vertical {
-    width: 1px;
-    height: 50000px;
+  width: 1px;
+  height: 50000px;
 }
 
 .coord-line.horizontal {
-    width: 50000px;
-    height: 1px;
+  width: 50000px;
+  height: 1px;
 }
 
 .coord-axis {
-    background: rgba(60, 150, 80, 0.45);
+  background: rgba(60, 150, 80, 0.45);
 }
 
 .coord-label {
-    position: absolute;
-
-    color: rgba(60, 150, 80, 0.62);
-
-    font-size: 9px;
-    font-family: 'Courier New', monospace;
-
-    user-select: none;
-
-    z-index: 102;
+  position: absolute;
+  color: rgba(60, 150, 80, 0.62);
+  font-size: 9px;
+  font-family: "Courier New", monospace;
+  user-select: none;
+  z-index: 102;
 }
 
 #ui-layer {
-    position: fixed;
-    bottom: 70px;
-    left: 50%;
-    transform: translateX(-50%);
-
-    z-index: 10000000;
-
-    text-align: center;
-
-    background: rgba(255, 255, 255, 0.72);
-    backdrop-filter: blur(4px);
-
-    padding: 10px 20px;
-
-    border-radius: 30px;
+  position: fixed;
+  bottom: 70px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10000000;
+  text-align: center;
+  background: rgba(255, 255, 255, 0.72);
+  backdrop-filter: blur(4px);
+  padding: 10px 20px;
+  border-radius: 30px;
 }
 
 input {
-    background: transparent;
-    border: none;
-
-    color: #000000;
-
-    font-size: 1.22rem;
-
-    outline: none;
-
-    width: 250px;
-
-    text-align: center;
-
-    font-family: 'Courier New', monospace;
-
-    letter-spacing: 1px;
+  background: transparent;
+  border: none;
+  color: #000000;
+  font-size: 1.22rem;
+  outline: none;
+  width: 250px;
+  text-align: center;
+  font-family: "Courier New", monospace;
+  letter-spacing: 1px;
 }
 
 #data-log {
-    font-size: 11px;
-
-    color: #888888;
-
-    margin-top: 5px;
-
-    font-family: 'Courier New', monospace;
-
-    display: flex;
-    justify-content: center;
-    align-items: baseline;
-
-    gap: 12px;
-
-    line-height: 1;
-
-    white-space: nowrap;
+  font-size: 11px;
+  color: #888888;
+  margin-top: 5px;
+  font-family: "Courier New", monospace;
+  display: flex;
+  justify-content: center;
+  align-items: baseline;
+  gap: 12px;
+  line-height: 1;
+  white-space: nowrap;
 }
 
 #decode-btn,
 #receipt-close,
 #receipt-download {
-    background: transparent;
-
-    border: none;
-
-    color: #888888;
-
-    font-size: 11px;
-
-    padding: 0;
-
-    cursor: pointer;
-
-    transition: color 0.15s;
-
-    font-family: 'Courier New', monospace;
+  background: transparent;
+  border: none;
+  color: #888888;
+  font-size: 11px;
+  padding: 0;
+  cursor: pointer;
+  transition: color 0.2s;
+  font-family: "Courier New", monospace;
 }
 
 #decode-btn:hover,
 #receipt-close:hover,
 #receipt-download:hover {
-    color: #000000;
-    text-decoration: underline;
+  color: #000000;
+  text-decoration: underline;
 }
 
 #utility-layer {
-    position: fixed;
-    right: 28px;
-    bottom: 34px;
-
-    z-index: 10000003;
-
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-
-    gap: 12px;
+  position: fixed;
+  right: 28px;
+  bottom: 34px;
+  z-index: 10000003;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
 }
 
 #utility-layer button {
-    background: transparent;
-
-    border: none;
-    outline: none;
-
-    color: rgba(0, 0, 0, 0.38);
-
-    font-size: 17px;
-
-    font-family: 'Helvetica Neue', Arial, sans-serif;
-
-    font-weight: 100;
-    line-height: 1;
-
-    cursor: pointer;
-
-    padding: 0;
-
-    transition: color 0.15s, transform 0.15s;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: rgba(0, 0, 0, 0.38);
+  font-size: 17px;
+  font-family: "Helvetica Neue", Arial, sans-serif;
+  font-weight: 100;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0;
+  transition: color 0.2s, transform 0.2s, opacity 0.2s;
 }
 
 #utility-layer button:hover {
-    color: rgba(0, 0, 0, 0.72);
-    transform: translateY(-1px);
+  color: rgba(0, 0, 0, 0.72);
+  transform: translateY(-1px);
 }
 
 #receipt-panel {
-    position: fixed;
-
-    top: 24px;
-    right: 24px;
-
-    width: 360px;
-    max-height: 78vh;
-
-    z-index: 10000004;
-
-    background: rgba(255, 255, 255, 0.82);
-    backdrop-filter: blur(4px);
-
-    border: 1px solid rgba(0, 0, 0, 0.08);
-
-    border-radius: 14px;
-
-    padding: 14px;
-
-    display: none;
-
-    box-shadow: 0 8px 28px rgba(0, 0, 0, 0.06);
+  position: fixed;
+  top: 24px;
+  right: 24px;
+  width: 360px;
+  max-height: 78vh;
+  z-index: 10000004;
+  background: rgba(255, 255, 255, 0.82);
+  backdrop-filter: blur(4px);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 14px;
+  padding: 14px;
+  display: none;
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.06);
 }
 
 #receipt-panel.show {
-    display: block;
+  display: block;
 }
 
 #receipt-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-
-    font-family: 'Courier New', monospace;
-
-    font-size: 12px;
-
-    color: rgba(0, 0, 0, 0.72);
-
-    margin-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: "Courier New", monospace;
+  font-size: 12px;
+  color: rgba(0, 0, 0, 0.72);
+  margin-bottom: 10px;
 }
 
 #receipt-content {
-    max-height: 58vh;
-
-    overflow: auto;
-
-    white-space: pre-wrap;
-
-    font-size: 10px;
-
-    line-height: 1.55;
-
-    color: rgba(0, 0, 0, 0.72);
-
-    font-family: 'Courier New', monospace;
+  max-height: 58vh;
+  overflow: auto;
+  white-space: pre-wrap;
+  font-size: 10px;
+  line-height: 1.55;
+  color: rgba(0, 0, 0, 0.72);
+  font-family: "Courier New", monospace;
 }
 
 #receipt-download {
-    margin-top: 10px;
-
-    font-size: 10px;
-
-    color: rgba(60, 150, 80, 0.8);
+  margin-top: 10px;
+  font-size: 10px;
+  color: rgba(60, 150, 80, 0.8);
 }
 
 .succulent-node {
-    position: absolute;
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    pointer-events: none;
-
-    will-change: transform;
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  pointer-events: none;
 }
 
 .succulent-node img {
-    display: block;
-
-    width: auto;
-    height: auto;
-
-    image-rendering: auto;
+  display: block;
+  width: auto;
+  height: auto;
 }
 
-
 .only-mutant-view .normal-type {
-opacity: 0;
+  opacity: 0;
+  filter: blur(5px);
 }
 
 .only-mutant-view .mutant-type {
-    opacity: 1;
+  opacity: 1;
 }
 
 .hide-succulent .succulent-node img {
-    opacity: 0;
+  opacity: 0;
 }
