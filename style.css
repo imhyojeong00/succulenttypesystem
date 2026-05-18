@@ -30,7 +30,7 @@ body {
     outline: none;
     padding: 0;
 
-    color: rgba(0,0,0,0.42);
+    color: rgba(0, 0, 0, 0.42);
 
     font-size: 19px;
     font-weight: 100;
@@ -49,12 +49,12 @@ body {
 }
 
 #coord-toggle:hover {
-    color: rgba(0,0,0,0.72);
+    color: rgba(0, 0, 0, 0.72);
     transform: scale(1.04);
 }
 
 #coord-toggle.active {
-    color: rgba(60,150,80,0.72);
+    color: rgba(60, 150, 80, 0.72);
 }
 
 /* 좌표 레이어 */
@@ -79,7 +79,7 @@ body {
 /* 좌표 선 */
 .coord-line {
     position: absolute;
-    background: rgba(60, 150, 80, 0.18);
+    background: rgba(60, 150, 80, 0.16);
 
     z-index: 101;
 }
@@ -95,14 +95,14 @@ body {
 }
 
 .coord-axis {
-    background: rgba(60, 150, 80, 0.5);
+    background: rgba(60, 150, 80, 0.45);
 }
 
 /* 좌표 라벨 */
 .coord-label {
     position: absolute;
 
-    color: rgba(60, 150, 80, 0.65);
+    color: rgba(60, 150, 80, 0.62);
 
     font-size: 9px;
 
@@ -125,7 +125,7 @@ body {
     text-align: center;
 
     background: rgba(255, 255, 255, 0.72);
-    backdrop-filter: blur(8px);
+    backdrop-filter: blur(4px);
 
     padding: 10px 20px;
 
@@ -173,7 +173,7 @@ input {
     white-space: nowrap;
 }
 
-/* 공통 버튼 */
+/* MUTANT VIEW / 영수증 내부 버튼 */
 #decode-btn,
 #receipt-close,
 #receipt-download {
@@ -223,7 +223,7 @@ input {
     border: none;
     outline: none;
 
-    color: rgba(0,0,0,0.38);
+    color: rgba(0, 0, 0, 0.38);
 
     font-size: 17px;
 
@@ -243,7 +243,7 @@ input {
 }
 
 #utility-layer button:hover {
-    color: rgba(0,0,0,0.72);
+    color: rgba(0, 0, 0, 0.72);
 
     transform: translateY(-1px);
 }
@@ -262,7 +262,7 @@ input {
 
     background: rgba(255, 255, 255, 0.82);
 
-    backdrop-filter: blur(10px);
+    backdrop-filter: blur(4px);
 
     border: 1px solid rgba(0, 0, 0, 0.08);
 
@@ -272,7 +272,7 @@ input {
 
     display: none;
 
-    box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+    box-shadow: 0 8px 28px rgba(0, 0, 0, 0.06);
 }
 
 #receipt-panel.show {
@@ -289,7 +289,7 @@ input {
 
     font-size: 12px;
 
-    color: rgba(0,0,0,0.72);
+    color: rgba(0, 0, 0, 0.72);
 
     margin-bottom: 10px;
 }
@@ -306,7 +306,7 @@ input {
 
     line-height: 1.55;
 
-    color: rgba(0,0,0,0.72);
+    color: rgba(0, 0, 0, 0.72);
 
     font-family: 'Courier New', monospace;
 }
@@ -329,8 +329,6 @@ input {
     align-items: center;
 
     pointer-events: none;
-
-    transition: opacity 0.3s ease;
 }
 
 .succulent-node img {
@@ -338,8 +336,6 @@ input {
 
     width: auto;
     height: auto;
-
-    filter: drop-shadow(0 5px 15px rgba(0,0,0,0.08));
 }
 
 /* MUTANT VIEW */
