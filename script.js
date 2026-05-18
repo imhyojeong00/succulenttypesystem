@@ -179,6 +179,8 @@ const GENETIC_MAP = {
 
 const REQUIRED_FOR_MASTER = ['A', 'AB_INTER', 'AC_COMBO', 'DT_INTER', 'B', 'R', 'P', 'E', 'F'];
 
+const imageCache = {};
+
 let collectedSet = new Set();
 let masterSpawned = false;
 
@@ -198,7 +200,17 @@ let firstASequenceSpawned = false;
 let receiptRecords = [];
 let typedHistory = [];
 
+function preloadImages() {
+    Object.keys(IMAGE_CONFIG).forEach(name => {
+        const img = new Image();
+        img.src = `./images/${name}.png`;
+        imageCache[name] = img;
+    });
+}
+
 window.onload = () => {
+    preloadImages();
+
     stage = document.getElementById('render-stage');
     input = document.getElementById('succulent-input');
     distLog = document.getElementById('dist-val');
@@ -386,7 +398,7 @@ function renderAHorizontalSequence(baseX, baseY, sourceInput = 'A') {
 
 function handleAVariant(sourceInput = 'A') {
     aCounter = (aCounter % 5) + 1;
-    const imgName = `A_STACK${aCounter}`;
+ const imgName = `A_STACK${aCounter}`;
     const nY = lastPos.y - 95;
 
     createSucculentElement(imgName, lastPos.x, nY, 0, sourceInput, 'A', 0, 90);
@@ -533,10 +545,8 @@ function createSucculentElement(imgName, x, y, rot, sourceInput = '-', prevInput
     img.style.width = baseWidth + "px";
     img.style.height = "auto";
 
-    img.onload = () => {
-        node.style.left = `${x - (baseWidth / 2)}px`;
-        node.style.top = `${y - (img.offsetHeight / 2) + (config.offsetY || 0)}px`;
-    };
+    node.style.left = `${x - (baseWidth / 2)}px`;
+    node.style.top = `${y - (baseWidth / 2) + (config.offsetY || 0)}px`;
 
     img.onerror = () => {
         const fallbackName = IMAGE_FALLBACK_MAP[imgName] || 'A';
@@ -553,7 +563,7 @@ function createSucculentElement(imgName, x, y, rot, sourceInput = '-', prevInput
         console.warn(`Missing image: ${imgName}. Fallback to ${fallbackName}.`);
     };
 
-    img.src = `./images/${imgName}.png`;
+    img.src = imageCache[imgName]?.src || `./images/${imgName}.png`;
 
     node.style.transform = `rotate(${rot}deg)`;
     node.appendChild(img);
@@ -727,7 +737,7 @@ function captureFullStage() {
         minY = Math.min(minY, top);
         maxX = Math.max(maxX, left + 600);
         maxY = Math.max(maxY, top + 600);
-    });
+  });
 
     html2canvas(stage, {
         useCORS: true,
@@ -762,8 +772,8 @@ function createCoordinateLayer() {
 
     coordLayer.innerHTML = '';
 
-    const spacing = 100;
-    const labelSpacing = 500;
+    const spacing = 220;
+    const labelSpacing = 1000;
     const stageSize = 50000;
 
     for (let x = 0; x <= stageSize; x += spacing) {
